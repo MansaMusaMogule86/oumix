@@ -74,13 +74,13 @@ function HalfPanel({ side, monogramSub, eyebrow, headline, headlineAccent, body,
           <span className="mono" style={{ fontSize: 11, letterSpacing: "0.4em" }}>{eyebrow}</span>
         </div>
 
-        <div style={{ marginBottom: isMobile ? 18 : 32 }}>
-          <OumixMonogram size={isMobile ? 30 : (isLeft ? 52 : 56)} sub={monogramSub} />
+        <div style={{ marginBottom: isMobile ? 14 : 32 }}>
+          <OumixMonogram size={isMobile ? 26 : (isLeft ? 52 : 56)} sub={monogramSub} />
         </div>
 
         <h1 className="display" style={{
-          fontSize: isMobile ? "clamp(24px, 7vw, 36px)" : "clamp(34px, 3.6vw, 56px)",
-          margin: 0, lineHeight: 1.05, maxWidth: 480,
+          fontSize: isMobile ? "clamp(21px, 5.8vw, 30px)" : "clamp(34px, 3.6vw, 56px)",
+          margin: 0, lineHeight: 1.08, maxWidth: 480,
           color: "#fff", fontWeight: 400,
           textShadow: "0 4px 24px rgba(0,0,0,0.5)",
         }}>
@@ -108,22 +108,32 @@ function HalfPanel({ side, monogramSub, eyebrow, headline, headlineAccent, body,
           </div>
         )}
 
-        <div style={{ marginTop: "auto", paddingTop: isMobile ? 20 : 48, width: "100%" }}>
-          <button onClick={onCTA} style={{
-            display: "inline-flex", alignItems: "center", gap: 14,
-            background: (isMobile || hover) ? "var(--gold)" : "rgba(11,11,12,0.45)",
-            backdropFilter: "blur(8px)",
-            color: (isMobile || hover) ? "#0B0B0C" : "var(--gold)",
-            border: "1px solid var(--gold)",
-            padding: isMobile ? "13px 22px" : "16px 28px",
-            fontSize: 11, letterSpacing: "0.3em", textTransform: "uppercase", fontWeight: 500,
-            transition: "all .35s",
-          }}>
-            {cta} <Icon.Arrow />
-          </button>
+        <div style={{ marginTop: "auto", paddingTop: isMobile ? 22 : 48, width: "100%" }}>
+          <div style={isMobile ? { display: "flex", justifyContent: "flex-start" } : {}}>
+            <button onClick={onCTA} style={{
+              display: "inline-flex", alignItems: "center", justifyContent: "center",
+              gap: isMobile ? 8 : 14,
+              background: (isMobile || hover) ? "var(--gold)" : "rgba(11,11,12,0.45)",
+              backdropFilter: "blur(8px)",
+              color: (isMobile || hover) ? "#0B0B0C" : "var(--gold)",
+              border: "1px solid var(--gold)",
+              ...(isMobile ? {
+                width: "auto", minWidth: 180, height: 48,
+                padding: "0 24px",
+                fontSize: 11, letterSpacing: "0.22em",
+              } : {
+                padding: "16px 28px",
+                fontSize: 11, letterSpacing: "0.3em",
+              }),
+              textTransform: "uppercase", fontWeight: 500,
+              transition: "all .35s",
+            }}>
+              {cta} <Icon.Arrow size={13} />
+            </button>
+          </div>
 
           <div style={{
-            marginTop: isMobile ? 16 : 36,
+            marginTop: isMobile ? 18 : 36,
             paddingTop: isMobile ? 16 : 24,
             borderTop: "1px solid rgba(255,255,255,0.10)",
             display: "flex",
