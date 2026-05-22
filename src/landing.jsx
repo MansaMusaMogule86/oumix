@@ -70,7 +70,7 @@ function HalfPanel({ side, monogramSub, eyebrow, headline, headlineAccent, body,
       <div style={{
         position: "relative", zIndex: 4, height: "100%",
         display: "flex", flexDirection: "column",
-        padding: isMobile ? "32px 24px 28px" : "86px 6vw 110px",
+        padding: isMobile ? "32px 24px 28px" : "86px 6vw 0",
         alignItems: "flex-start", textAlign: "left",
         boxSizing: "border-box",
       }}>
@@ -118,51 +118,55 @@ function HalfPanel({ side, monogramSub, eyebrow, headline, headlineAccent, body,
           </div>
         )}
 
-        {/* CTA — part of the content flow, not pushed to bottom */}
-        <div style={{ marginTop: isMobile ? 22 : 22 }}>
-          <button onClick={onCTA} style={{
-            display: "inline-flex", alignItems: "center", justifyContent: "center",
-            gap: isMobile ? 8 : 11,
-            background: (isMobile || hover) ? "var(--gold)" : "rgba(9,9,10,0.48)",
-            backdropFilter: "blur(10px)",
-            color: (isMobile || hover) ? "#0B0B0C" : "var(--gold)",
-            border: "1px solid rgba(230,198,135,0.85)",
-            ...(isMobile ? {
-              width: "auto", minWidth: 180, height: 48,
-              padding: "0 24px", fontSize: 11, letterSpacing: "0.22em",
-            } : {
-              padding: "13px 26px", fontSize: 11, letterSpacing: "0.26em",
-            }),
-            textTransform: "uppercase", fontWeight: 500, transition: "all .35s",
-          }}>
-            {cta} <Icon.Arrow size={13} />
-          </button>
-        </div>
-
-        {/* Mobile: inline feature chips */}
-        {isMobile && (
-          <div style={{ marginTop: 18, paddingTop: 16, borderTop: "1px solid rgba(255,255,255,0.08)", display: "flex", gap: 18 }}>
-            {features.chips.slice(0, 3).map(f => <FeatureChip key={f.label} icon={f.icon} label={f.label} />)}
+        {/* Bottom group — CTA + feature strip, floated together to the bottom */}
+        <div style={{ marginTop: "auto", width: "100%" }}>
+          {/* CTA */}
+          <div style={{ padding: isMobile ? "0" : "0 0 20px" }}>
+            <button onClick={onCTA} style={{
+              display: "inline-flex", alignItems: "center", justifyContent: "center",
+              gap: isMobile ? 8 : 11,
+              background: (isMobile || hover) ? "var(--gold)" : "rgba(9,9,10,0.48)",
+              backdropFilter: "blur(10px)",
+              color: (isMobile || hover) ? "#0B0B0C" : "var(--gold)",
+              border: "1px solid rgba(230,198,135,0.85)",
+              ...(isMobile ? {
+                width: "auto", minWidth: 180, height: 48,
+                padding: "0 24px", fontSize: 11, letterSpacing: "0.22em",
+              } : {
+                padding: "13px 26px", fontSize: 11, letterSpacing: "0.26em",
+              }),
+              textTransform: "uppercase", fontWeight: 500, transition: "all .35s",
+            }}>
+              {cta} <Icon.Arrow size={13} />
+            </button>
           </div>
-        )}
-      </div>
 
-      {/* Desktop: dark glass feature strip — always visible, anchored to bottom */}
-      {!isMobile && (
-        <div style={{
-          position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 5,
-          background: isLeft
-            ? "linear-gradient(0deg, rgba(5,6,8,0.72) 0%, rgba(5,6,8,0.46) 100%)"
-            : "linear-gradient(0deg, rgba(14,8,5,0.72) 0%, rgba(14,8,5,0.46) 100%)",
-          backdropFilter: "blur(20px) saturate(120%)",
-          WebkitBackdropFilter: "blur(20px) saturate(120%)",
-          borderTop: "1px solid rgba(230,198,135,0.26)",
-          padding: "16px 6vw 20px",
-          display: "flex", gap: 28,
-        }}>
-          {features.chips.map(f => <FeatureChip key={f.label} icon={f.icon} label={f.label} />)}
+          {/* Mobile: inline chips right below CTA */}
+          {isMobile && (
+            <div style={{ marginTop: 18, paddingTop: 16, borderTop: "1px solid rgba(255,255,255,0.08)", display: "flex", gap: 18 }}>
+              {features.chips.slice(0, 3).map(f => <FeatureChip key={f.label} icon={f.icon} label={f.label} />)}
+            </div>
+          )}
+
+          {/* Desktop: dark glass feature strip directly below CTA */}
+          {!isMobile && (
+            <div style={{
+              marginLeft: "calc(-6vw)",
+              marginRight: "calc(-6vw)",
+              background: isLeft
+                ? "linear-gradient(0deg, rgba(5,6,8,0.76) 0%, rgba(5,6,8,0.50) 100%)"
+                : "linear-gradient(0deg, rgba(14,8,5,0.76) 0%, rgba(14,8,5,0.50) 100%)",
+              backdropFilter: "blur(20px) saturate(120%)",
+              WebkitBackdropFilter: "blur(20px) saturate(120%)",
+              borderTop: "1px solid rgba(230,198,135,0.26)",
+              padding: "16px 6vw 20px",
+              display: "flex", gap: 28,
+            }}>
+              {features.chips.map(f => <FeatureChip key={f.label} icon={f.icon} label={f.label} />)}
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 }
