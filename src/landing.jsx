@@ -21,10 +21,12 @@ function FeatureChip({ icon, label, tone = "gold" }) {
   );
 }
 
-function HalfPanel({ side, monogramSub, eyebrow, headline, headlineAccent, body, features, cta, onCTA, slotId, slotPlaceholder, slotSrc, bgGradient, accentGlow }) {
+function HalfPanel({ side, monogramSub, eyebrow, headline, headlineAccent, body, features, cta, onCTA, slotId, slotPlaceholder, slotSrc, bgGradient, accentGlow, deskPl, deskPr }) {
   const isLeft = side === "left";
   const isMobile = useIsMobile();
   const [hover, setHover] = useStateL(false);
+  const pl = deskPl || "clamp(48px, 6vw, 120px)";
+  const pr = deskPr || "clamp(48px, 6vw, 120px)";
 
   return (
     <div
@@ -32,20 +34,16 @@ function HalfPanel({ side, monogramSub, eyebrow, headline, headlineAccent, body,
       onMouseLeave={() => !isMobile && setHover(false)}
       style={{
         position: "relative",
-        flex: isMobile ? "none" : (hover ? "1.04 1 0" : "1 1 0"),
-        width: isMobile ? "100%" : undefined,
+        width: "100%",
         height: isMobile ? "60vh" : "100%",
         minHeight: isMobile ? 360 : undefined,
-        transition: isMobile ? "none" : "flex 0.6s cubic-bezier(.2,.7,.2,1)",
         overflow: "hidden",
         cursor: "default",
         background: bgGradient,
       }}
     >
-      {/* Ambient glow */}
       <div style={{ position: "absolute", inset: 0, pointerEvents: "none", background: accentGlow, zIndex: 1 }} />
 
-      {/* Cinematic image bed */}
       <image-slot
         id={slotId}
         placeholder={slotPlaceholder}
@@ -58,109 +56,108 @@ function HalfPanel({ side, monogramSub, eyebrow, headline, headlineAccent, body,
         }}
       />
 
-      {/* Dark cinematic wash */}
       <div style={{
         position: "absolute", inset: 0, zIndex: 3, pointerEvents: "none",
         background: isLeft
-          ? "linear-gradient(180deg, rgba(7,8,10,0.78) 0%, rgba(7,8,10,0.18) 30%, rgba(7,8,10,0.04) 54%, rgba(7,8,10,0.70) 100%)"
-          : "linear-gradient(180deg, rgba(15,11,8,0.75) 0%, rgba(15,11,8,0.14) 30%, rgba(15,11,8,0.03) 54%, rgba(15,11,8,0.70) 100%)",
+          ? "linear-gradient(180deg, rgba(7,8,10,0.82) 0%, rgba(7,8,10,0.20) 32%, rgba(7,8,10,0.04) 56%, rgba(7,8,10,0.72) 100%)"
+          : "linear-gradient(180deg, rgba(15,11,8,0.80) 0%, rgba(15,11,8,0.16) 32%, rgba(15,11,8,0.03) 56%, rgba(15,11,8,0.72) 100%)",
       }} />
 
-      {/* Content — flows top-down: eyebrow → monogram → headline → copy → categories → CTA */}
+      {/* Content — identical structure, tokens, and Y-start for both panels */}
       <div style={{
         position: "relative", zIndex: 4, height: "100%",
         display: "flex", flexDirection: "column",
-        padding: isMobile ? "32px 24px 28px" : "86px 6vw 0",
+        padding: isMobile ? "32px 24px 0" : `96px ${pr} 0 ${pl}`,
         alignItems: "flex-start", textAlign: "left",
         boxSizing: "border-box",
       }}>
-        {/* Eyebrow */}
-        <div style={{ display: "flex", alignItems: "center", gap: 12, color: "var(--gold)", marginBottom: isMobile ? 14 : 18 }}>
-          <span style={{ width: 30, height: 1, background: "var(--gold)" }} />
-          <span className="mono" style={{ fontSize: 11, letterSpacing: "0.4em" }}>{eyebrow}</span>
+        {/* 1. Eyebrow */}
+        <div style={{ display: "flex", alignItems: "center", gap: 12, color: "var(--gold)", marginBottom: isMobile ? 14 : 20 }}>
+          <span style={{ width: 28, height: 1, background: "var(--gold)" }} />
+          <span className="mono" style={{ fontSize: 10, letterSpacing: "0.42em", textTransform: "uppercase" }}>{eyebrow}</span>
         </div>
 
-        {/* Monogram */}
-        <div style={{ marginBottom: isMobile ? 14 : 18 }}>
-          <OumixMonogram size={isMobile ? 26 : 40} sub={monogramSub} />
+        {/* 2. Emblem + wordmark */}
+        <div style={{ marginBottom: isMobile ? 14 : 20 }}>
+          <OumixMonogram size={isMobile ? 26 : 38} sub={monogramSub} />
         </div>
 
-        {/* Headline */}
+        {/* 3. Headline */}
         <h1 className="display" style={{
-          fontSize: isMobile ? "clamp(21px, 5.8vw, 30px)" : "clamp(28px, 2.8vw, 44px)",
-          margin: 0, lineHeight: isMobile ? 1.08 : 1.07,
-          maxWidth: 460, color: "#fff", fontWeight: 400,
-          textShadow: "0 4px 28px rgba(0,0,0,0.6)",
+          fontSize: isMobile ? "clamp(21px, 5.8vw, 30px)" : "clamp(26px, 2.6vw, 42px)",
+          margin: 0, lineHeight: isMobile ? 1.08 : 1.08,
+          maxWidth: 520, color: "#fff", fontWeight: 400,
+          textShadow: "0 4px 28px rgba(0,0,0,0.65)",
         }}>
           {headline}
-          {headlineAccent && <><br /><span className="script gold-shimmer" style={{ fontSize: "0.8em" }}>{headlineAccent}</span></>}
+          {headlineAccent && <><br /><span className="script gold-shimmer" style={{ fontSize: "0.82em" }}>{headlineAccent}</span></>}
         </h1>
 
-        {/* Body copy — desktop only */}
+        {/* 4. Description — desktop only */}
         {!isMobile && (
           <p style={{
             marginTop: 14, marginBottom: 0,
-            color: "rgba(244,242,238,0.68)", maxWidth: 400,
-            fontSize: 13, lineHeight: 1.75, letterSpacing: "0.025em",
-            textShadow: "0 2px 14px rgba(0,0,0,0.55)",
+            color: "rgba(244,242,238,0.65)", maxWidth: 480,
+            fontSize: 13, lineHeight: 1.78, letterSpacing: "0.02em",
+            textShadow: "0 2px 16px rgba(0,0,0,0.6)",
           }}>{body}</p>
         )}
 
-        {/* Category tags — desktop only */}
+        {/* 5. Category row — desktop only */}
         {!isMobile && (
           <div style={{ marginTop: 12, display: "flex", flexWrap: "wrap", gap: 0, alignItems: "center" }}>
             {features.categories.map((c, i) => (
               <React.Fragment key={c}>
-                <span className="mono" style={{ fontSize: 10, letterSpacing: "0.2em", color: "rgba(255,255,255,0.55)", textTransform: "uppercase" }}>{c}</span>
-                {i < features.categories.length - 1 && <span style={{ color: "var(--gold)", margin: "0 10px", opacity: 0.45 }}>·</span>}
+                <span className="mono" style={{ fontSize: 10, letterSpacing: "0.2em", color: "rgba(255,255,255,0.50)", textTransform: "uppercase" }}>{c}</span>
+                {i < features.categories.length - 1 && <span style={{ color: "var(--gold-3)", margin: "0 9px", opacity: 0.6 }}>·</span>}
               </React.Fragment>
             ))}
           </div>
         )}
 
-        {/* Bottom group — CTA + feature strip, floated together to the bottom */}
+        {/* 6. CTA + feature strip — bottom-anchored group */}
         <div style={{ marginTop: "auto", width: "100%" }}>
-          {/* CTA */}
-          <div style={{ padding: isMobile ? "0" : "0 0 20px" }}>
+          <div style={{ paddingBottom: isMobile ? 0 : 18 }}>
             <button onClick={onCTA} style={{
               display: "inline-flex", alignItems: "center", justifyContent: "center",
               gap: isMobile ? 8 : 11,
-              background: (isMobile || hover) ? "var(--gold)" : "rgba(9,9,10,0.48)",
+              background: (hover || isMobile) ? "var(--gold)" : "rgba(9,9,10,0.52)",
               backdropFilter: "blur(10px)",
-              color: (isMobile || hover) ? "#0B0B0C" : "var(--gold)",
-              border: "1px solid rgba(230,198,135,0.85)",
+              color: (hover || isMobile) ? "#0B0B0C" : "var(--gold)",
+              border: "1px solid rgba(230,198,135,0.80)",
               ...(isMobile ? {
                 width: "auto", minWidth: 180, height: 48,
                 padding: "0 24px", fontSize: 11, letterSpacing: "0.22em",
               } : {
-                padding: "13px 26px", fontSize: 11, letterSpacing: "0.26em",
+                width: 220, height: 56,
+                padding: 0, fontSize: 11, letterSpacing: "0.26em",
               }),
-              textTransform: "uppercase", fontWeight: 500, transition: "all .35s",
+              textTransform: "uppercase", fontWeight: 500, transition: "background .3s, color .3s",
             }}>
               {cta} <Icon.Arrow size={13} />
             </button>
           </div>
 
-          {/* Mobile: inline chips right below CTA */}
+          {/* Mobile: chips inline */}
           {isMobile && (
             <div style={{ marginTop: 18, paddingTop: 16, borderTop: "1px solid rgba(255,255,255,0.08)", display: "flex", gap: 18 }}>
               {features.chips.slice(0, 3).map(f => <FeatureChip key={f.label} icon={f.icon} label={f.label} />)}
             </div>
           )}
 
-          {/* Desktop: dark glass feature strip directly below CTA */}
+          {/* Desktop: full-width glass feature strip */}
           {!isMobile && (
             <div style={{
-              marginLeft: "calc(-6vw)",
-              marginRight: "calc(-6vw)",
+              marginLeft: `calc(-1 * ${pl})`,
+              marginRight: `calc(-1 * ${pr})`,
               background: isLeft
-                ? "linear-gradient(0deg, rgba(5,6,8,0.76) 0%, rgba(5,6,8,0.50) 100%)"
-                : "linear-gradient(0deg, rgba(14,8,5,0.76) 0%, rgba(14,8,5,0.50) 100%)",
-              backdropFilter: "blur(20px) saturate(120%)",
-              WebkitBackdropFilter: "blur(20px) saturate(120%)",
-              borderTop: "1px solid rgba(230,198,135,0.26)",
-              padding: "16px 6vw 20px",
-              display: "flex", gap: 28,
+                ? "linear-gradient(0deg, rgba(5,6,8,0.80) 0%, rgba(5,6,8,0.52) 100%)"
+                : "linear-gradient(0deg, rgba(14,8,5,0.80) 0%, rgba(14,8,5,0.52) 100%)",
+              backdropFilter: "blur(20px) saturate(115%)",
+              WebkitBackdropFilter: "blur(20px) saturate(115%)",
+              borderTop: "1px solid rgba(201,164,92,0.24)",
+              padding: `16px ${pr} 20px ${pl}`,
+              display: "flex", gap: 24,
             }}>
               {features.chips.map(f => <FeatureChip key={f.label} icon={f.icon} label={f.label} />)}
             </div>
@@ -175,15 +172,19 @@ function Landing({ go, tweaks }) {
   const isMobile = useIsMobile();
   return (
     <div style={{ minHeight: "100vh", position: "relative", overflow: "hidden", paddingTop: 0 }}>
-      {/* Hero split */}
+      {/* Hero — strict 2-col CSS grid (desktop) / stacked flex (mobile) */}
       <div style={{
-        height: isMobile ? "auto" : "100vh",
-        minHeight: isMobile ? "auto" : 760,
-        display: "flex", position: "relative",
-        flexDirection: isMobile ? "column" : "row",
+        position: "relative",
+        display: isMobile ? "flex" : "grid",
+        gridTemplateColumns: "1fr 1fr",
+        flexDirection: "column",
+        height: isMobile ? "auto" : "calc(100vh - 76px)",
+        minHeight: isMobile ? "auto" : 680,
       }}>
         <HalfPanel
           side="left"
+          deskPl="clamp(48px, 6vw, 120px)"
+          deskPr="140px"
           eyebrow="01 — Mobility"
           monogramSub="CAR"
           headline={<>Rent any car,<br /><span className="gold-shimmer">anywhere in Morocco.</span></>}
@@ -208,6 +209,8 @@ function Landing({ go, tweaks }) {
 
         <HalfPanel
           side="right"
+          deskPl="clamp(80px, 9vw, 150px)"
+          deskPr="clamp(48px, 6vw, 120px)"
           eyebrow="02 — Stays"
           monogramSub="VILLAS"
           headline={<>Luxury Villas</>}
@@ -236,10 +239,15 @@ function Landing({ go, tweaks }) {
           <div style={{
             position: "absolute", top: 0, bottom: 0, left: "50%",
             width: 1, transform: "translateX(-0.5px)",
-            background: "linear-gradient(180deg, transparent, rgba(230,198,135,0.45), rgba(230,198,135,0.45), transparent)",
-            zIndex: 3,
+            background: "linear-gradient(180deg, transparent 0%, rgba(201,164,92,0.22) 12%, rgba(201,164,92,0.22) 88%, transparent 100%)",
+            zIndex: 5, pointerEvents: "none",
           }} />
-          <div style={{ position: "absolute", left: "50%", top: "50%", transform: "translate(-50%, -50%)", zIndex: 4 }}>
+          <div style={{
+            position: "absolute", left: "50%", top: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "clamp(140px, 12vw, 200px)", height: "clamp(140px, 12vw, 200px)",
+            zIndex: 6,
+          }}>
             <CenterBadge size={168} />
           </div>
         </>}
