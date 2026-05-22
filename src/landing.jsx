@@ -25,6 +25,7 @@ function HalfPanel({ side, monogramSub, eyebrow, headline, headlineAccent, body,
   const isLeft = side === "left";
   const isMobile = useIsMobile();
   const [hover, setHover] = useStateL(false);
+
   return (
     <div
       onMouseEnter={() => !isMobile && setHover(true)}
@@ -41,8 +42,10 @@ function HalfPanel({ side, monogramSub, eyebrow, headline, headlineAccent, body,
         background: bgGradient,
       }}
     >
+      {/* Ambient glow */}
       <div style={{ position: "absolute", inset: 0, pointerEvents: "none", background: accentGlow, zIndex: 1 }} />
 
+      {/* Cinematic image bed */}
       <image-slot
         id={slotId}
         placeholder={slotPlaceholder}
@@ -50,100 +53,116 @@ function HalfPanel({ side, monogramSub, eyebrow, headline, headlineAccent, body,
         style={{
           position: "absolute", left: 0, right: 0, bottom: 0,
           height: "72%", width: "100%", zIndex: 2,
-          maskImage: "linear-gradient(to top, black 35%, transparent 95%)",
-          WebkitMaskImage: "linear-gradient(to top, black 35%, transparent 95%)",
+          maskImage: "linear-gradient(to top, black 30%, transparent 92%)",
+          WebkitMaskImage: "linear-gradient(to top, black 30%, transparent 92%)",
         }}
       />
 
+      {/* Dark cinematic wash */}
       <div style={{
         position: "absolute", inset: 0, zIndex: 3, pointerEvents: "none",
         background: isLeft
-          ? "linear-gradient(180deg, rgba(7,8,10,0.7) 0%, rgba(7,8,10,0.15) 30%, rgba(7,8,10,0.05) 55%, rgba(7,8,10,0.92) 100%)"
-          : "linear-gradient(180deg, rgba(15,11,8,0.65) 0%, rgba(15,11,8,0.12) 30%, rgba(15,11,8,0.04) 55%, rgba(15,11,8,0.92) 100%)",
+          ? "linear-gradient(180deg, rgba(7,8,10,0.78) 0%, rgba(7,8,10,0.18) 30%, rgba(7,8,10,0.04) 54%, rgba(7,8,10,0.70) 100%)"
+          : "linear-gradient(180deg, rgba(15,11,8,0.75) 0%, rgba(15,11,8,0.14) 30%, rgba(15,11,8,0.03) 54%, rgba(15,11,8,0.70) 100%)",
       }} />
 
+      {/* Content — flows top-down: eyebrow → monogram → headline → copy → categories → CTA */}
       <div style={{
         position: "relative", zIndex: 4, height: "100%",
         display: "flex", flexDirection: "column",
-        padding: isMobile ? "32px 24px 28px" : "120px 6vw 96px",
-        alignItems: "flex-start",
-        textAlign: "left",
+        padding: isMobile ? "32px 24px 28px" : "86px 6vw 110px",
+        alignItems: "flex-start", textAlign: "left",
+        boxSizing: "border-box",
       }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 12, color: "var(--gold)", marginBottom: isMobile ? 14 : 22 }}>
+        {/* Eyebrow */}
+        <div style={{ display: "flex", alignItems: "center", gap: 12, color: "var(--gold)", marginBottom: isMobile ? 14 : 18 }}>
           <span style={{ width: 30, height: 1, background: "var(--gold)" }} />
           <span className="mono" style={{ fontSize: 11, letterSpacing: "0.4em" }}>{eyebrow}</span>
         </div>
 
-        <div style={{ marginBottom: isMobile ? 14 : 32 }}>
-          <OumixMonogram size={isMobile ? 26 : (isLeft ? 52 : 56)} sub={monogramSub} />
+        {/* Monogram */}
+        <div style={{ marginBottom: isMobile ? 14 : 18 }}>
+          <OumixMonogram size={isMobile ? 26 : 40} sub={monogramSub} />
         </div>
 
+        {/* Headline */}
         <h1 className="display" style={{
-          fontSize: isMobile ? "clamp(21px, 5.8vw, 30px)" : "clamp(34px, 3.6vw, 56px)",
-          margin: 0, lineHeight: 1.08, maxWidth: 480,
-          color: "#fff", fontWeight: 400,
-          textShadow: "0 4px 24px rgba(0,0,0,0.5)",
+          fontSize: isMobile ? "clamp(21px, 5.8vw, 30px)" : "clamp(28px, 2.8vw, 44px)",
+          margin: 0, lineHeight: isMobile ? 1.08 : 1.07,
+          maxWidth: 460, color: "#fff", fontWeight: 400,
+          textShadow: "0 4px 28px rgba(0,0,0,0.6)",
         }}>
           {headline}
-          {headlineAccent && <><br /><span className="script gold-shimmer" style={{ fontSize: "0.78em" }}>{headlineAccent}</span></>}
+          {headlineAccent && <><br /><span className="script gold-shimmer" style={{ fontSize: "0.8em" }}>{headlineAccent}</span></>}
         </h1>
 
+        {/* Body copy — desktop only */}
         {!isMobile && (
           <p style={{
-            marginTop: 20, marginBottom: 0,
-            color: "rgba(244,242,238,0.78)", maxWidth: 440,
-            fontSize: 14, lineHeight: 1.7, letterSpacing: "0.04em",
-            textShadow: "0 2px 12px rgba(0,0,0,0.5)",
+            marginTop: 14, marginBottom: 0,
+            color: "rgba(244,242,238,0.68)", maxWidth: 400,
+            fontSize: 13, lineHeight: 1.75, letterSpacing: "0.025em",
+            textShadow: "0 2px 14px rgba(0,0,0,0.55)",
           }}>{body}</p>
         )}
 
+        {/* Category tags — desktop only */}
         {!isMobile && (
-          <div style={{ marginTop: 24, display: "flex", flexWrap: "wrap", gap: 0, alignItems: "center", justifyContent: isLeft ? "flex-start" : "flex-end" }}>
+          <div style={{ marginTop: 12, display: "flex", flexWrap: "wrap", gap: 0, alignItems: "center" }}>
             {features.categories.map((c, i) => (
               <React.Fragment key={c}>
-                <span className="mono" style={{ fontSize: 11, letterSpacing: "0.24em", color: "#fff", textTransform: "uppercase", textShadow: "0 2px 8px rgba(0,0,0,0.6)" }}>{c}</span>
-                {i < features.categories.length - 1 && <span style={{ color: "var(--gold)", margin: "0 14px", opacity: 0.7 }}>|</span>}
+                <span className="mono" style={{ fontSize: 10, letterSpacing: "0.2em", color: "rgba(255,255,255,0.55)", textTransform: "uppercase" }}>{c}</span>
+                {i < features.categories.length - 1 && <span style={{ color: "var(--gold)", margin: "0 10px", opacity: 0.45 }}>·</span>}
               </React.Fragment>
             ))}
           </div>
         )}
 
-        <div style={{ marginTop: "auto", paddingTop: isMobile ? 22 : 48, width: "100%" }}>
-          <div style={isMobile ? { display: "flex", justifyContent: "flex-start" } : {}}>
-            <button onClick={onCTA} style={{
-              display: "inline-flex", alignItems: "center", justifyContent: "center",
-              gap: isMobile ? 8 : 14,
-              background: (isMobile || hover) ? "var(--gold)" : "rgba(11,11,12,0.45)",
-              backdropFilter: "blur(8px)",
-              color: (isMobile || hover) ? "#0B0B0C" : "var(--gold)",
-              border: "1px solid var(--gold)",
-              ...(isMobile ? {
-                width: "auto", minWidth: 180, height: 48,
-                padding: "0 24px",
-                fontSize: 11, letterSpacing: "0.22em",
-              } : {
-                padding: "16px 28px",
-                fontSize: 11, letterSpacing: "0.3em",
-              }),
-              textTransform: "uppercase", fontWeight: 500,
-              transition: "all .35s",
-            }}>
-              {cta} <Icon.Arrow size={13} />
-            </button>
-          </div>
-
-          <div style={{
-            marginTop: isMobile ? 18 : 36,
-            paddingTop: isMobile ? 16 : 24,
-            borderTop: "1px solid rgba(255,255,255,0.10)",
-            display: "flex",
-            justifyContent: "flex-start",
-            gap: isMobile ? 18 : 24,
+        {/* CTA — part of the content flow, not pushed to bottom */}
+        <div style={{ marginTop: isMobile ? 22 : 22 }}>
+          <button onClick={onCTA} style={{
+            display: "inline-flex", alignItems: "center", justifyContent: "center",
+            gap: isMobile ? 8 : 11,
+            background: (isMobile || hover) ? "var(--gold)" : "rgba(9,9,10,0.48)",
+            backdropFilter: "blur(10px)",
+            color: (isMobile || hover) ? "#0B0B0C" : "var(--gold)",
+            border: "1px solid rgba(230,198,135,0.85)",
+            ...(isMobile ? {
+              width: "auto", minWidth: 180, height: 48,
+              padding: "0 24px", fontSize: 11, letterSpacing: "0.22em",
+            } : {
+              padding: "13px 26px", fontSize: 11, letterSpacing: "0.26em",
+            }),
+            textTransform: "uppercase", fontWeight: 500, transition: "all .35s",
           }}>
-            {(isMobile ? features.chips.slice(0, 3) : features.chips).map(f => <FeatureChip key={f.label} icon={f.icon} label={f.label} />)}
-          </div>
+            {cta} <Icon.Arrow size={13} />
+          </button>
         </div>
+
+        {/* Mobile: inline feature chips */}
+        {isMobile && (
+          <div style={{ marginTop: 18, paddingTop: 16, borderTop: "1px solid rgba(255,255,255,0.08)", display: "flex", gap: 18 }}>
+            {features.chips.slice(0, 3).map(f => <FeatureChip key={f.label} icon={f.icon} label={f.label} />)}
+          </div>
+        )}
       </div>
+
+      {/* Desktop: dark glass feature strip — always visible, anchored to bottom */}
+      {!isMobile && (
+        <div style={{
+          position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 5,
+          background: isLeft
+            ? "linear-gradient(0deg, rgba(5,6,8,0.72) 0%, rgba(5,6,8,0.46) 100%)"
+            : "linear-gradient(0deg, rgba(14,8,5,0.72) 0%, rgba(14,8,5,0.46) 100%)",
+          backdropFilter: "blur(20px) saturate(120%)",
+          WebkitBackdropFilter: "blur(20px) saturate(120%)",
+          borderTop: "1px solid rgba(230,198,135,0.26)",
+          padding: "16px 6vw 20px",
+          display: "flex", gap: 28,
+        }}>
+          {features.chips.map(f => <FeatureChip key={f.label} icon={f.icon} label={f.label} />)}
+        </div>
+      )}
     </div>
   );
 }
@@ -195,7 +214,7 @@ function Landing({ go, tweaks }) {
             chips: [
               { icon: <Icon.Pool />, label: "Private\nPool" },
               { icon: <Icon.Sparkle />, label: "Daily\nCleaning" },
-              { icon: <Icon.Pin />, label: "Unique\nLocations" },
+              { icon: <Icon.Compass />, label: "Unique\nLocations" },
               { icon: <Icon.Bell />, label: "Concierge\nService" },
             ],
           }}

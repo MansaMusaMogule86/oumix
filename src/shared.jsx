@@ -139,6 +139,7 @@ const Icon = {
   Close: (p) => (<svg viewBox="0 0 24 24" width={p.size||16} height={p.size||16} fill="none" stroke="currentColor" strokeWidth="1.4"><path d="M6 6l12 12M18 6L6 18"/></svg>),
   Check: (p) => (<svg viewBox="0 0 24 24" width={p.size||16} height={p.size||16} fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M5 12l5 5 9-11"/></svg>),
   Star: (p) => (<svg viewBox="0 0 24 24" width={p.size||14} height={p.size||14} fill="currentColor"><path d="M12 2l3 7 7 .6-5.3 4.7L18 21l-6-3.6L6 21l1.3-6.7L2 9.6 9 9z"/></svg>),
+  Compass: (p) => (<svg viewBox="0 0 24 24" width={p.size||18} height={p.size||18} fill="none" stroke="currentColor" strokeWidth="1.3"><circle cx="12" cy="12" r="9"/><polygon points="16,8 13.5,13.5 8,16 10.5,10.5" fill="none" stroke="currentColor" strokeLinejoin="round"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg>),
 };
 
 // ——— Navbar
