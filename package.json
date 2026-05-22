@@ -1,0 +1,8 @@
+{
+  "name": "oumix-marrakech",
+  "version": "1.0.0",
+  "description": "Oumix Marrakech — Elite Fleet & Luxury Villas",
+  "scripts": {
+    "start": "npx serve . -l 3000"
+  }
+}
