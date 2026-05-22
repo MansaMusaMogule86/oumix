@@ -168,7 +168,7 @@ function Landing({ go, tweaks }) {
           onCTA={() => go({ page: "cars" })}
           slotId="hero-car-bg"
           slotPlaceholder="Drop a luxury fleet image — palms, cars, twilight"
-          slotSrc="uploads/pasted-1779445281212-0.png"
+          slotSrc="assets/Oumixcars.png"
           bgGradient="linear-gradient(180deg, #050608 0%, #0a1118 35%, #0b0d11 70%, #060708 100%)"
           accentGlow="radial-gradient(ellipse 80% 50% at 50% 110%, rgba(120,150,200,0.22) 0%, rgba(120,150,200,0.04) 40%, transparent 70%), radial-gradient(ellipse 60% 40% at 20% 120%, rgba(230,198,135,0.10) 0%, transparent 60%)"
         />
@@ -193,7 +193,7 @@ function Landing({ go, tweaks }) {
           onCTA={() => go({ page: "villas" })}
           slotId="hero-villa-bg"
           slotPlaceholder="Drop a villa image — pool, terrace, lanterns"
-          slotSrc="uploads/pasted-1779445281212-0.png"
+          slotSrc="assets/Oumixvillaspng.png"
           bgGradient="linear-gradient(180deg, #1a0f06 0%, #2a1810 35%, #1d130b 70%, #0e0805 100%)"
           accentGlow="radial-gradient(ellipse 80% 60% at 60% 105%, rgba(255,170,80,0.28) 0%, rgba(255,140,60,0.08) 40%, transparent 70%), radial-gradient(ellipse 50% 40% at 90% 90%, rgba(230,198,135,0.18) 0%, transparent 60%)"
         />
